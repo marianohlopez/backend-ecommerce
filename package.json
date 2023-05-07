@@ -5,8 +5,7 @@
   "main": "./src/server.js",
   "type": "module",
   "scripts": {
-    "test": "node ./src/benchmark.js",
-    "start": "nodemon . MONGO"
+    "start": "node . MONGO"
   },
   "keywords": [],
   "author": "",
