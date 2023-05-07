@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const configParams = {
-    port: process.env.PORT,
+    port: 3000,
     host: process.env.HOST,
     dbUrl: process.env.MONGO_URL,
     db: process.argv[2],
