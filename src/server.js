@@ -80,7 +80,7 @@ app.use((req, res, next) => {
 
 app.use(router)
 
-await mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
+await mongoose.connect(process.env.MONGO_URL);
 console.log("Database connected!");
 
 const expressServer = app.listen(port, (err) => {
