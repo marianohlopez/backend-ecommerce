@@ -49,8 +49,4 @@ router.route("/cart/finish/:cartId")
 
 router.get("/info", compression(), authController.info)
 
-router.get("/info-uncomp", authController.info)
-
-router.get("/api/random", authController.getRandom)
-
 export const productsCartRouter = router;

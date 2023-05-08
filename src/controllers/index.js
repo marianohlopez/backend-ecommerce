@@ -2,7 +2,6 @@ import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-import { fork } from "child_process";
 import { sendUserMail } from "../services/nodemail.js";
 import logger from "../lib/logger.js";
 import { config } from "dotenv";
@@ -145,18 +144,6 @@ const info = (req, res) => {
     })
 }
 
-const getRandom = (req, res) => {
-    const { cant } = req.query;
-    const childProcess = fork("./src/child.js");
-    const quantity = cant ? cant : 100000000;
-
-    childProcess.send(quantity);
-
-    childProcess.on("message", (response) => {
-        res.json(response);
-    });
-}
-
 export const authController = {
     getLogin,
     getRegister,
@@ -166,7 +153,6 @@ export const authController = {
     findChatByMail,
     logOut,
     info,
-    getRandom,
     getLoginMail,
     getLoginAdmin,
 };

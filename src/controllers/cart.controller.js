@@ -125,6 +125,9 @@ const findProductsByCategory = async (req, res, next) => {
         });
         const { category } = req.params;
         const filterProducts = await Product.find({ category }).lean();
+        if (filterProducts.length === 0) {
+            res.send("La categoria no existe")
+        }
         if (!user) {
             return res.redirect("/");
         }
