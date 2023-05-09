@@ -1,0 +1,14 @@
+{{#if userOrders}}
+{{#each userOrders}}
+<h4>Orden nº: {{this.order}}</h4>
+<h4 style="color: blue;">Email del cliente: {{this.email}}</h4>
+<h4>Fecha y hora: {{this.time}}</h4>
+<ul>
+    {{#each products}}
+            <li>{{this.title}} - ${{this.price}} - cant: {{this.quantity}}</li>
+    {{/each}}
+</ul>
+<hr>
+{{/each}}
+{{/if}}
+

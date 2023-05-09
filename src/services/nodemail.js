@@ -45,7 +45,7 @@ export const sendOrderMail = async (order) => {
             html: `
             <h3 style="color: blue;">Email del cliente: ${order.email}</h3>
             <h4>Orden nº: ${order.order}</h4>
-            <h4>Hora: ${order.time}</h4>
+            <h4>Fecha y hora: ${order.time}</h4>
             <ul>
                 ${order.products.map((product) =>
                 `<li>${product.title} - $${product.price} - cant: ${product.quantity}</li>`).join('')}

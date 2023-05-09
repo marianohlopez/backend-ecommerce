@@ -1,0 +1,11 @@
+<h1>Gracias por tu compra {{user}}</h1>
+
+<script>
+    function redireccionar(pagina) {
+        location.href = pagina;
+    } 
+    function volver() {
+        setTimeout(() => redireccionar('/productos'), 2500);
+    }
+    volver(); 
+</script>

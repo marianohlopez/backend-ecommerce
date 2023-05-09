@@ -8,7 +8,8 @@ const productForm = document.getElementById("productForm");
 const productInput = document.getElementById("productInput");
 const priceInput = document.getElementById("priceInput");
 const imgInput = document.getElementById("imgInput");
-const categoryInput = document.getElementById("categoryInput")
+const categoryInput = document.getElementById("categoryInput");
+const stockInput = document.getElementById("stockInput");
 const productsContainer = document.getElementById("productsContainer");
 
 
@@ -22,6 +23,7 @@ const renderProduct = (productData) => {
             <h2>${productInfo.title}</h2>
             <img src="${productInfo.thumbnail}" alt="" width="100">
             <p>${productInfo.price}</p>
+            <p>Stock: ${productInfo.stock}</p>
             `
     });
     productsContainer.innerHTML = html;
@@ -34,7 +36,8 @@ const formProductsHandler = (event) => {
         title: productInput.value,
         thumbnail: imgInput.value,
         price: priceInput.value,
-        category: categoryInput.value
+        category: categoryInput.value,
+        stock: stockInput.value
     };
     sendProduct(productInfo);
     productForm.reset()

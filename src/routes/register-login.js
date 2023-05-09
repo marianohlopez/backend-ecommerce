@@ -5,16 +5,14 @@ import upload from '../lib/multer.js';
 
 const router = Router()
 
-router
-    .route('/')
+router.route('/')
     .get(authController.getLogin)
     .post(
         passport.authenticate("login", { failureRedirect: "/fail-login" }),
         authController.getLogin
     );
 
-router
-    .route("/register")
+router.route("/register")
     .get(authController.getRegister)
     .post(
         upload.single("photo"),

@@ -34,16 +34,21 @@ router.route('/chat')
 router.route('/chat/:email')
     .get(authController.findChatByMail)
 
-//Agregar o eliminar productos del carrito por su id 
+//Agregar o eliminar productos en carrito por su id 
 
-router.route("/cart/:productId")
+router.route("/carrito/:productId")
     .post(cartController.updateCart)
     .delete(cartController.deleteProductInCart);
 
 //Finalizar compra/envio de orden al mail del usuario
 
-router.route("/cart/finish/:cartId")
+router.route("/carrito/finish/:cartId")
     .post(cartController.finish)
+
+//Visualizar ordenes del usuario
+
+router.route("/orden")
+    .get(cartController.orders)
 
 //Parametros de configuracion
 

@@ -31,18 +31,29 @@ const updateCart = async (req, res, next) => {
         const cart = await cartDao.getByFilter({
             username: user.username,
         });
-        if (cart.products.some(item => item.title === product.title)) {
-            cart.products.find(item => item.title === product.title).quantity++
+        if (product.stock >= 1) {
+            if (cart.products.some(item => item.title === product.title)) {
+                cart.products.find(item => item.title === product.title).quantity++
+                product.stock--
+                await productApi.update(product._id, product)
+
+            }
+            else {
+                cart.products.push(product);
+                product.stock--
+                await productApi.update(product._id, product)
+            }
+
+            await cartDao.update(
+                { username: user.username },
+                cart
+            );
+            res.redirect("/productos");
         }
         else {
-            cart.products.push(product);
+            res.send("Por el momento no hay mas stock del producto indicado")
         }
 
-        await cartDao.update(
-            { username: user.username },
-            cart
-        );
-        res.redirect("/productos");
     } catch (err) {
         logger.error({ error: err }, "Error adding product");
 
@@ -102,11 +113,14 @@ const deleteProductInCart = async (req, res, next) => {
     try {
         const { user } = req.session.passport;
         const { productId } = req.params;
+        const product = await productApi.getById(productId);
         const userCart = await cartDao.getByFilter({
             username: user.username
         });
+        const productElim = userCart.products.find((item) => item._id == productId);
+        product.stock += productElim.quantity
+        await productApi.update(product._id, product)
         const newArray = userCart.products.filter((item) => item._id != productId);
-
         await cartDao.update(
             { username: user.username },
             { products: newArray, username: user.username }
@@ -150,13 +164,25 @@ const productDescription = async (req, res, next) => {
             imagen: product.thumbnail,
             precio: product.price,
             categoria: product.category,
+            stock: product.stock
         }
         res.json(productDescription)
 
     } catch (err) {
-        logger.error(err);
+        next(err);
     }
 };
+
+const orders = async (req, res, next) => {
+    try {
+        const { user } = req.session.passport;
+        const userOrders = await Orders.find({ user: user.username }).lean();
+        res.render("orders", { userOrders/* , orderProducts: userOrders.products */ })
+    }
+    catch {
+        logger.error({ error: err }, "Error rendering the orders");
+    }
+}
 
 const finish = async (req, res, next) => {
     try {
@@ -172,7 +198,11 @@ const finish = async (req, res, next) => {
         }
         orderApi.save(userOrder);
         sendOrderMail(userOrder);
-        res.send(`Felicitaciones por su compra ${cart.username}`)
+        await cartDao.update(
+            { username: cart.username },
+            { products: [], username: cart.username }
+        );
+        res.render(`final-buy`, { user: cart.username })
     } catch (err) {
         logger.error({ error: err }, "Error adding product");
         res.sendStatus(500);
@@ -189,5 +219,6 @@ export const cartController = {
     findProductsByCategory,
     deleteProductInCart,
     productDescription,
+    orders,
     finish,
 };
