@@ -6,7 +6,7 @@ const consoleStream = pino.destination({ sync: false });
 
 // Crear un stream para los logs de warning en el archivo warn.log
 const warnStream = pino.destination({
-    dest: "./logs/warn.log",
+    dest: "../../logs/warn.log",
     sync: true,
 });
 
