@@ -9,7 +9,6 @@ Además tiene un mecanismo de registro de nuevos usuarios con encriptación de p
 
 - Node.js
 - Express
-- MongoDB
 - Passport 
 - Mongoose
 - Bcrypt
